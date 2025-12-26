@@ -33,23 +33,28 @@ def predict():
     if not text:
         return jsonify({'error': 'No text provided'}), 400
 
-    # Vectorize input
-    text_vect = vectorizer.transform([text])
+    try:
+        # Vectorize input
+        text_vect = vectorizer.transform([text])
 
-    # Predict
-    emotion = emotion_model.predict(text_vect)[0]
-    risk = risk_model.predict(text_vect)[0]
-    
-    # Get probabilities (confidence)
-    emotion_proba = emotion_model.predict_proba(text_vect).max()
-    risk_proba = risk_model.predict_proba(text_vect).max()
+        # Predict
+        emotion = emotion_model.predict(text_vect)[0]
+        risk = risk_model.predict(text_vect)[0]
+        
+        # Get probabilities (confidence)
+        emotion_proba = emotion_model.predict_proba(text_vect).max()
+        risk_proba = risk_model.predict_proba(text_vect).max()
 
-    return jsonify({
-        'emotion': emotion,
-        'risk_level': risk,
-        'emotion_confidence': float(emotion_proba),
-        'risk_confidence': float(risk_proba)
-    })
+        return jsonify({
+            'emotion': emotion,
+            'risk_level': risk,
+            'emotion_confidence': float(emotion_proba),
+            'risk_confidence': float(risk_proba)
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 
 @app.route('/drift-plan', methods=['POST'])
 def get_drift_plan():
