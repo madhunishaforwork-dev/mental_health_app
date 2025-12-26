@@ -7,13 +7,29 @@ import drift_planner
 app = Flask(__name__)
 
 # Load models and vectorizer
+# Train models on startup to avoid pickle compatibility issues
 try:
-    emotion_model = joblib.load('models/emotion_model.joblib')
-    risk_model = joblib.load('models/risk_model.joblib')
-    vectorizer = joblib.load('models/vectorizer.joblib')
-    print("Models loaded successfully.")
+    print("Training models on startup...")
+    df = pd.read_csv('dataset.csv')
+    
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.linear_model import LogisticRegression
+    
+    # 1. Vectorize
+    vectorizer = TfidfVectorizer(stop_words='english')
+    X_vect = vectorizer.fit_transform(df['text'])
+
+    # 2. Train Emotion Model
+    emotion_model = LogisticRegression()
+    emotion_model.fit(X_vect, df['emotion'])
+
+    # 3. Train Risk Model
+    risk_model = LogisticRegression()
+    risk_model.fit(X_vect, df['risk_level'])
+    
+    print("Models trained successfully in memory.")
 except Exception as e:
-    print(f"Error loading models: {e}")
+    print(f"Error training models: {e}")
     emotion_model = None
     risk_model = None
     vectorizer = None
