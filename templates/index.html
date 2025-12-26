@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Risk Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Mental Health Risk Detector</h1>
+            <p>Analyze text for emotional state and risk level using AI.</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <textarea id="textInput" placeholder="How are you feeling today? Type your thoughts here..."></textarea>
+                <button id="analyzeBtn">Analyze Text</button>
+            </div>
+
+            <div id="loading" class="hidden">Analyzing...</div>
+
+            <div id="result" class="hidden">
+                <div class="result-card">
+                    <h2>Analysis Result</h2>
+                    <div class="result-item">
+                        <span class="label">Emotion:</span>
+                        <span id="emotionValue" class="value">--</span>
+                        <span id="emotionConf" class="confidence"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Risk Level:</span>
+                        <span id="riskValue" class="value">--</span>
+                        <span id="riskConf" class="confidence"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="drift-section" class="hidden">
+                <div class="result-card drift-card">
+                    <h2 id="plan-title">Solution Journey</h2>
+                    <div class="plan-meta">
+                        <span id="plan-type" class="badge"></span>
+                        <span id="plan-duration" class="badge duration-badge"></span>
+                    </div>
+                    <div id="plan-steps" class="steps-container">
+                        <!-- Steps will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="error" class="hidden error-msg"></div>
+        </main>
+
+        <footer>
+            <p>Powered by Machine Learning (TF-IDF + Logistic Regression)</p>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
