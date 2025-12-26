@@ -48,16 +48,29 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update UI with results
             emotionValue.textContent = data.emotion;
             riskValue.textContent = data.risk_level;
-            emotionConf.textContent = `(${(data.emotion_confidence * 100).toFixed(1)}%)`;
-            riskConf.textContent = `(${(data.risk_confidence * 100).toFixed(1)}%)`;
 
-            // Color coding
+            // Update Progress Bars
+            const emotionPct = (data.emotion_confidence * 100).toFixed(1);
+            const riskPct = (data.risk_confidence * 100).toFixed(1);
+
+            document.getElementById('emotionBar').style.width = `${emotionPct}%`;
+            document.getElementById('riskBar').style.width = `${riskPct}%`;
+
+            // Color coding & Emergency Widget
+            const emergencyWidget = document.getElementById('emergency-widget');
+            
             if (data.risk_level === 'High') {
                 riskValue.style.color = 'var(--risk-high)';
+                document.getElementById('riskBar').style.backgroundColor = 'var(--risk-high)';
+                emergencyWidget.classList.remove('hidden');
             } else if (data.risk_level === 'Medium') {
                 riskValue.style.color = 'var(--risk-medium)';
+                document.getElementById('riskBar').style.backgroundColor = 'var(--risk-medium)';
+                emergencyWidget.classList.add('hidden');
             } else {
                 riskValue.style.color = 'var(--risk-low)';
+                document.getElementById('riskBar').style.backgroundColor = 'var(--risk-low)';
+                emergencyWidget.classList.add('hidden');
             }
 
             resultDiv.classList.remove('hidden');
@@ -100,15 +113,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         planSteps.innerHTML = ''; // Clear previous steps
 
-        plan.steps.forEach(step => {
+        plan.steps.forEach((step, index) => {
             const stepDiv = document.createElement('div');
-            stepDiv.className = 'step-card';
+            stepDiv.className = 'timeline-step';
             stepDiv.innerHTML = `
-                <div class="step-header">
-                    <span class="step-day">${step.day}</span>
-                    <span class="step-focus">${step.focus}</span>
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <span class="day-badge">${step.day}</span>
+                    <span class="focus-label">Focus: ${step.focus}</span>
+                    <p class="activity-text">${step.activity}</p>
                 </div>
-                <div class="step-activity">${step.activity}</div>
             `;
             planSteps.appendChild(stepDiv);
         });

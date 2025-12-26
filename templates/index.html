@@ -24,18 +24,35 @@
 
             <div id="loading" class="hidden">Analyzing...</div>
 
+            <div id="emergency-widget" class="hidden emergency-box">
+                <div class="emergency-icon">⚠️</div>
+                <div class="emergency-content">
+                    <h3>You are not alone.</h3>
+                    <p>It seems like you're going through a tough time. Please reach out to someone.</p>
+                    <div class="emergency-actions">
+                        <a href="tel:988" class="emergency-btn">📞 Call Helpline (988)</a>
+                        <a href="https://www.7cups.com/" target="_blank" class="emergency-btn secondary">💬 Chat Support</a>
+                    </div>
+                </div>
+            </div>
+
             <div id="result" class="hidden">
                 <div class="result-card">
                     <h2>Analysis Result</h2>
                     <div class="result-item">
                         <span class="label">Emotion:</span>
                         <span id="emotionValue" class="value">--</span>
-                        <span id="emotionConf" class="confidence"></span>
                     </div>
+                    <div class="progress-bar-container">
+                        <div id="emotionBar" class="progress-bar"></div>
+                    </div>
+
                     <div class="result-item">
                         <span class="label">Risk Level:</span>
                         <span id="riskValue" class="value">--</span>
-                        <span id="riskConf" class="confidence"></span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div id="riskBar" class="progress-bar"></div>
                     </div>
                 </div>
             </div>
@@ -47,7 +64,7 @@
                         <span id="plan-type" class="badge"></span>
                         <span id="plan-duration" class="badge duration-badge"></span>
                     </div>
-                    <div id="plan-steps" class="steps-container">
+                    <div id="plan-steps" class="timeline-container">
                         <!-- Steps will be injected here -->
                     </div>
                 </div>
